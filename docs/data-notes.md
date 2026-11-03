@@ -1,0 +1,2 @@
+1. “One record = one departure of one trip (tripId) from one stop (stop.id), as it looked at the moment I asked.”
+2. “5 minutes later, the same departure is either gone (it left, or it’s outside the time window now), or still there with updated values (when, delay, maybe platform or cancelled). And new departures appear that weren’t in the first response.”
