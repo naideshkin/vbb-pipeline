@@ -2,11 +2,12 @@ services:
   seaweedfs:                        # a name we choose for this service
     image: chrislusf/seaweedfs      # which image to run
     container_name: seaweedfs
-    command: server -s3 -dir=/data  # start all parts + the S3 API, store data in /data
+    command: server -s3 -s3.config=/etc/seaweedfs/s3.json -dir=/data  # start all parts + the S3 API, store data in /data
     ports:
       - "8333:8333"                 # laptop port : container port (S3 API)
     volumes:
       - seaweedfs_data:/data        # keep /data even if the container is removed
+      - ./infra/seaweedfs/s3.json:/etc/seaweedfs/s3.json
 
 volumes:
   seaweedfs_data:                   # Docker creates and manages this storage
