@@ -1,6 +1,7 @@
 import json
 import os
 from datetime import datetime, timezone
+import gzip
 
 import boto3
 import requests
@@ -27,7 +28,7 @@ s3 = boto3.client(
 
 
 def build_key(stop_id: str, fetched_at: datetime) -> str:
-    return f"departures/date={fetched_at:%Y-%m-%d}/stop_id={stop_id}/{fetched_at:%Y%m%dT%H%M%SZ}.json"
+    return f"departures/date={fetched_at:%Y-%m-%d}/stop_id={stop_id}/{fetched_at:%Y%m%dT%H%M%SZ}.json.gz"
 
 
 def extract_stop(stop_id: str) -> str:
@@ -47,11 +48,12 @@ def extract_stop(stop_id: str) -> str:
     }
 
     key = build_key(stop_id, fetched_at)  # 4. save, never overwrite
+    body = json.dumps(envelope, ensure_ascii=False).encode("utf-8")
     s3.put_object(
         Bucket=BUCKET,
         Key=key,
-        Body=json.dumps(envelope, ensure_ascii=False).encode("utf-8"),
-        ContentType="application/json",
+        Body=gzip.compress(body),  # compress before uploading
+        ContentType="application/gzip",
     )
     return key
 
