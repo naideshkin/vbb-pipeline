@@ -4,3 +4,4 @@ __pycache__/
 docs/samples/
 .env
 infra/seaweedfs/s3.json
+airflow/logs/
