@@ -11,3 +11,6 @@ services:
 
 volumes:
   seaweedfs_data:                   # Docker creates and manages this storage
+
+include:
+  - airflow/docker-compose.yaml
