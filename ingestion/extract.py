@@ -5,9 +5,6 @@ import gzip
 
 import boto3
 import requests
-from dotenv import load_dotenv
-
-load_dotenv()
 
 BASE_URL = "https://v6.vbb.transport.rest"
 BUCKET = "raw"
@@ -18,13 +15,15 @@ STOPS = {
     "900023201": "S+U Zoologischer Garten",
 }
 
-s3 = boto3.client(
-    "s3",
-    endpoint_url=os.environ["S3_ENDPOINT"],
-    aws_access_key_id=os.environ["S3_ACCESS_KEY"],
-    aws_secret_access_key=os.environ["S3_SECRET_KEY"],
-    region_name="us-east-1",
-)
+
+def get_s3():
+    return boto3.client(
+        "s3",
+        endpoint_url=os.environ["S3_ENDPOINT"],
+        aws_access_key_id=os.environ["S3_ACCESS_KEY"],
+        aws_secret_access_key=os.environ["S3_SECRET_KEY"],
+        region_name="us-east-1",
+    )
 
 
 def build_key(stop_id: str, fetched_at: datetime) -> str:
@@ -32,6 +31,7 @@ def build_key(stop_id: str, fetched_at: datetime) -> str:
 
 
 def extract_stop(stop_id: str) -> str:
+    s3 = get_s3()
     fetched_at = datetime.now(timezone.utc)  # 1. note the time we ask
     params = {"duration": DURATION_MIN}
     resp = requests.get(
@@ -59,6 +59,8 @@ def extract_stop(stop_id: str) -> str:
 
 
 if __name__ == "__main__":
+    from dotenv import load_dotenv
+
+    load_dotenv()  # load .env file with S3 credentials
     for stop_id, name in STOPS.items():
-        key = extract_stop(stop_id)
-        print(f"{name} -> {key}")
+        print(f"{name} -> {extract_stop(stop_id)}")
