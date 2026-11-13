@@ -9,8 +9,20 @@ services:
       - seaweedfs_data:/data        # keep /data even if the container is removed
       - ./infra/seaweedfs/s3.json:/etc/seaweedfs/s3.json
 
+  clickhouse:
+    image: clickhouse/clickhouse-server:26.8
+    container_name: clickhouse
+    ports:
+      - "8123:8123"                 # HTTP interface
+    environment:
+      CLICKHOUSE_USER: ${CLICKHOUSE_USER}
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD}
+      CLICKHOUSE_DB: ${CLICKHOUSE_DB}
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse  # persist data
 volumes:
   seaweedfs_data:                   # Docker creates and manages this storage
+  clickhouse_data:                  # Docker creates and manages this storage
 
 include:
   - airflow/docker-compose.yaml
