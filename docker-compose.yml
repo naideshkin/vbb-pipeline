@@ -20,6 +20,7 @@ services:
       CLICKHOUSE_DB: ${CLICKHOUSE_DB}
     volumes:
       - clickhouse_data:/var/lib/clickhouse  # persist data
+      - ./infra/clickhouse/users.d/admin.xml:/etc/clickhouse-server/users.d/admin.xml:ro
 volumes:
   seaweedfs_data:                   # Docker creates and manages this storage
   clickhouse_data:                  # Docker creates and manages this storage

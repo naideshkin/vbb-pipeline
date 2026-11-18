@@ -5,3 +5,4 @@ docs/samples/
 .env
 infra/seaweedfs/s3.json
 airflow/logs/
+vbb_db.sql
