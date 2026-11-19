@@ -1,0 +1,6 @@
+sources:
+  - name: vbb_pipeline
+    schema: vbb
+    description: VBB trips 
+    tables:
+      - name: raw_departures
