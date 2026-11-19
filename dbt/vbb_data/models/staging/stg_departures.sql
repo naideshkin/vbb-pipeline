@@ -10,8 +10,7 @@ JSONExtract(dep, 'plannedWhen', 'Nullable(String)') as planned_when,
 JSONExtract(dep, 'when', 'Nullable(String)') as when,
 JSONExtract(dep, 'delay', 'Nullable(Int32)') as delay_seconds,
 JSONExtractString(dep, 'plannedPlatform') as planned_platform,
-JSONExtractString(dep, 'Platform') as platform,
+JSONExtractString(dep, 'platform') as platform,
 JSONExtractBool(dep, 'cancelled') as is_cancelled
 from {{ source('vbb_pipeline', 'raw_departures') }}
-ARRAY JOIN JSONExtractArrayRaw(response, 'departures') as dep
-limit 5;
+ARRAY JOIN JSONExtractArrayRaw(response, 'departures') as dep;
