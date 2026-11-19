@@ -6,3 +6,5 @@ docs/samples/
 infra/seaweedfs/s3.json
 airflow/logs/
 vbb_db.sql
+pass_generation.py
+dbt/logs/
