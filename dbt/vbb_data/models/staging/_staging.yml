@@ -1,6 +1,6 @@
 models:
   - name: stg_departures
-    tests:
+    data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
             combination_of_columns:
@@ -8,6 +8,9 @@ models:
               - stop_id
               - fetched_at
     columns:
+      - name: queried_stop_id
+        data_tests:
+          - not_null
       - name: trip_id
         data_tests:
           - not_null
@@ -20,3 +23,8 @@ models:
       - name: planned_when
         data_tests:
           - not_null
+      - name: line_product
+        data_tests:
+          - accepted_values:
+                arguments:
+                  values: ['bus', 'subway', 'tram', 'suburban']
