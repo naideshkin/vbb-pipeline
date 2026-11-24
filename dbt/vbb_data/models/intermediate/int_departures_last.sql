@@ -45,7 +45,7 @@ select
     gap_minutes,
     case
         when expected_departure is null then null
-        when gap_minutes >= -5 then 1
+        when gap_minutes + {{ var('observation_gap_threshold_minutes') }} >= 0 then 1
         else 0
     end as is_observation_complete
 from with_gap
