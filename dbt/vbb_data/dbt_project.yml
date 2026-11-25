@@ -17,6 +17,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 vars:
   observation_gap_threshold_minutes: 5
   delay_threshold_seconds: 360
+  min_trips_per_group: 100
 
 models:
   vbb_data:
